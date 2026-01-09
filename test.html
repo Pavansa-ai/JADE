@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JADE Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ JADE Extension Test Page</h1>
+    <p>Test various JavaScript APIs to see JADE in action.</p>
+    
+    <div class="test-section">
+        <h2>1. Network API Tests</h2>
+        <button onclick="testFetch()">Test Fetch API</button>
+        <button onclick="testXHR()">Test XMLHttpRequest</button>
+        <div id="fetchResult" class="result"></div>
+        <div id="xhrResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Storage API Tests</h2>
+        <button onclick="testLocalStorage()">Test Local Storage</button>
+        <button onclick="testCookies()">Test Cookies</button>
+        <div id="storageResult" class="result"></div>
+        <div id="cookieResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Sensor API Tests</h2>
+        <button onclick="testGeolocation()">Test Geolocation</button>
+        <button onclick="testNotifications()">Test Notifications</button>
+        <div id="geoResult" class="result"></div>
+        <div id="notifResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Other API Tests</h2>
+        <button onclick="testClipboard()">Test Clipboard</button>
+        <button onclick="testBeacon()">Test Send Beacon</button>
+        <div id="clipboardResult" class="result"></div>
+        <div id="beaconResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. JADE Extension Status</h2>
+        <button onclick="checkJadeStatus()">Check JADE Status</button>
+        <div id="statusResult" class="result info"></div>
+    </div>
+    
+    <script>
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'result ' + type;
+            element.style.display = 'block';
+            setTimeout(() => element.style.display = 'none', 5000);
+        }
+        
+        function testFetch() {
+            fetch('https://httpbin.org/get')
+                .then(response => response.json())
+                .then(data => showResult('fetchResult', '✓ Fetch successful', 'success'))
+                .catch(error => showResult('fetchResult', `✗ Fetch blocked: ${error.message}`, 'error'));
+        }
+        
+        function testXHR() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://httpbin.org/get');
+            xhr.onload = () => showResult('xhrResult', '✓ XHR successful', 'success');
+            xhr.onerror = () => showResult('xhrResult', '✗ XHR blocked', 'error');
+            xhr.send();
+        }
+        
+        function testLocalStorage() {
+            try {
+                localStorage.setItem('test', 'value');
+                const value = localStorage.getItem('test');
+                showResult('storageResult', `✓ LocalStorage: ${value}`, 'success');
+            } catch (error) {
+                showResult('storageResult', `✗ LocalStorage blocked: ${error.message}`, 'error');
+            }
+        }
+        
+        function testCookies() {
+            try {
+                document.cookie = "test=value; path=/";
+                showResult('cookieResult', '✓ Cookie set', 'success');
+            } catch (error) {
+                showResult('cookieResult', `✗ Cookie blocked: ${error.message}`, 'error');
+            }
+        }
+        
+        function testGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    () => showResult('geoResult', '✓ Geolocation successful', 'success'),
+                    (error) => showResult('geoResult', `✗ Geolocation blocked: ${error.message}`, 'error')
+                );
+            } else {
+                showResult('geoResult', '✗ Geolocation not supported', 'error');
+            }
+        }
+        
+        function testNotifications() {
+            if ('Notification' in window && Notification.permission !== 'denied') {
+                Notification.requestPermission()
+                    .then(permission => showResult('notifResult', `✓ Notification permission: ${permission}`, 'success'))
+                    .catch(error => showResult('notifResult', `✗ Notification blocked: ${error.message}`, 'error'));
+            } else {
+                showResult('notifResult', '✗ Notifications not supported', 'error');
+            }
+        }
+        
+        function testClipboard() {
+            navigator.clipboard.writeText('Test text')
+                .then(() => showResult('clipboardResult', '✓ Clipboard write successful', 'success'))
+                .catch(error => showResult('clipboardResult', `✗ Clipboard blocked: ${error.message}`, 'error'));
+        }
+        
+        function testBeacon() {
+            const success = navigator.sendBeacon('https://httpbin.org/post', 'test data');
+            showResult('beaconResult', success ? '✓ Beacon sent' : '✗ Beacon blocked', success ? 'success' : 'error');
+        }
+        
+        function checkJadeStatus() {
+            const status = {
+                hasJade: !!window.__JADE_INJECTED__,
+                domain: window.__JADE_DOMAIN || 'unknown',
+                policy: window.__JADE_POLICY ? 'Loaded' : 'Not loaded'
+            };
+            
+            let message = 'JADE Status:\n';
+            message += `• Extension Injected: ${status.hasJade ? '✅ Yes' : '❌ No'}\n`;
+            message += `• Current Domain: ${status.domain}\n`;
+            message += `• Policy Status: ${status.policy}\n`;
+            message += `• Page URL: ${window.location.href}\n`;
+            
+            if (status.hasJade) {
+                message += '\n🔒 JADE is actively protecting this page!';
+            } else {
+                message += '\n⚠️ JADE extension might not be enabled or loaded.';
+            }
+            
+            showResult('statusResult', message, 'info');
+        }
+        
+        // Check JADE status on load
+        window.addEventListener('load', () => {
+            setTimeout(checkJadeStatus, 1000);
+        });
+    </script>
+</body>
+</html>

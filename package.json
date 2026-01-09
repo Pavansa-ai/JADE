@@ -1,0 +1,34 @@
+{
+  "name": "jade-extension",
+  "version": "1.0.0",
+  "description": "JavaScript Advanced Domain Enforcer - Policy-driven control of JavaScript operational capabilities in the browser",
+  "main": "background/background.js",
+  "scripts": {
+    "build": "echo 'No build step required for pure extension'",
+    "test": "echo 'Open test.html in browser with extension loaded'",
+    "lint": "echo 'Linting not configured'",
+    "pack": "zip -r jade-extension.zip . -x '*.git*' 'node_modules/*' '*.zip'"
+  },
+  "keywords": [
+    "browser-extension",
+    "security",
+    "privacy",
+    "javascript",
+    "policy",
+    "content-security",
+    "web-security"
+  ],
+  "author": "VIT Chennai Hackathon Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/jade-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/jade-extension/issues"
+  },
+  "homepage": "https://github.com/yourusername/jade-extension#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
