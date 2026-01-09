@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JADE Controls</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🛡️ JADE</h1>
+                <div class="status">
+                    <span class="status-indicator active"></span>
+                    <span class="status-text">Active</span>
+                </div>
+            </div>
+            <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+        </div>
+
+        <!-- Current Domain Info -->
+        <div class="domain-section">
+            <div class="domain-header">
+                <h2 id="currentDomain">Loading...</h2>
+                <div class="risk-score">
+                    <span class="risk-label">Risk Score:</span>
+                    <span class="risk-value" id="riskScore">--</span>
+                </div>
+            </div>
+            <div class="domain-url" id="currentUrl">...</div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button id="lockdownBtn" class="action-btn danger">
+                🔒 Lockdown Mode
+            </button>
+            <button id="whitelistBtn" class="action-btn success">
+                ✅ Whitelist Site
+            </button>
+            <button id="viewLogsBtn" class="action-btn">
+                📊 View Logs
+            </button>
+        </div>
+
+        <!-- Policy Controls -->
+        <div class="policy-section">
+            <h3>JavaScript Permissions</h3>
+            
+            <div class="policy-grid">
+                <!-- Network -->
+                <div class="policy-category">
+                    <h4>🌐 Network</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowNetwork">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Network Requests</span>
+                    </div>
+                    <div class="policy-desc">Fetch, XHR, WebSocket</div>
+                </div>
+
+                <!-- Storage -->
+                <div class="policy-category">
+                    <h4>💾 Storage</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowStorage">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Local Storage</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowCookies">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Cookies</span>
+                    </div>
+                </div>
+
+                <!-- Sensors -->
+                <div class="policy-category">
+                    <h4>📡 Sensors</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowGeolocation">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Geolocation</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowCamera">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Camera</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowMicrophone">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Microphone</span>
+                    </div>
+                </div>
+
+                <!-- User Interface -->
+                <div class="policy-category">
+                    <h4>🖥️ UI & Features</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowDOM" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow DOM Changes</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowNotifications">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Notifications</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowClipboard">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Clipboard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Blocks -->
+        <div class="recent-blocks">
+            <h3>🛑 Recent Blocks</h3>
+            <div id="recentBlocksList" class="blocks-list">
+                <div class="empty-state">No blocks detected yet</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button id="applyBtn" class="primary-btn">Apply Policy</button>
+            <button id="resetBtn" class="secondary-btn">Reset to Default</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="stats">
+                <span>📈 <span id="blockCount">0</span> blocks today</span>
+            </div>
+            <a href="#" id="optionsLink">Advanced Settings</a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JADE Controls</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🛡️ JADE</h1>
+                <div class="status">
+                    <span class="status-indicator active"></span>
+                    <span class="status-text">Active</span>
+                </div>
+            </div>
+            <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+        </div>
+
+        <!-- Current Domain Info -->
+        <div class="domain-section">
+            <div class="domain-header">
+                <h2 id="currentDomain">Loading...</h2>
+                <div class="risk-score">
+                    <span class="risk-label">Risk Score:</span>
+                    <span class="risk-value" id="riskScore">--</span>
+                </div>
+            </div>
+            <div class="domain-url" id="currentUrl">...</div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button id="lockdownBtn" class="action-btn danger">
+                🔒 Lockdown Mode
+            </button>
+            <button id="whitelistBtn" class="action-btn success">
+                ✅ Whitelist Site
+            </button>
+            <button id="viewLogsBtn" class="action-btn">
+                📊 View Logs
+            </button>
+        </div>
+
+        <!-- Policy Controls -->
+        <div class="policy-section">
+            <h3>JavaScript Permissions</h3>
+            
+            <div class="policy-grid">
+                <!-- Network -->
+                <div class="policy-category">
+                    <h4>🌐 Network</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowNetwork">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Network Requests</span>
+                    </div>
+                    <div class="policy-desc">Fetch, XHR, WebSocket</div>
+                </div>
+
+                <!-- Storage -->
+                <div class="policy-category">
+                    <h4>💾 Storage</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowStorage">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Local Storage</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowCookies">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Cookies</span>
+                    </div>
+                </div>
+
+                <!-- Sensors -->
+                <div class="policy-category">
+                    <h4>📡 Sensors</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowGeolocation">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Geolocation</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowCamera">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Camera</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowMicrophone">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Microphone</span>
+                    </div>
+                </div>
+
+                <!-- User Interface -->
+                <div class="policy-category">
+                    <h4>🖥️ UI & Features</h4>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowDOM" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow DOM Changes</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowNotifications">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Notifications</span>
+                    </div>
+                    <div class="policy-item">
+                        <label class="toggle">
+                            <input type="checkbox" id="allowClipboard">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="policy-label">Allow Clipboard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Blocks -->
+        <div class="recent-blocks">
+            <h3>🛑 Recent Blocks</h3>
+            <div id="recentBlocksList" class="blocks-list">
+                <div class="empty-state">No blocks detected yet</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button id="applyBtn" class="primary-btn">Apply Policy</button>
+            <button id="resetBtn" class="secondary-btn">Reset to Default</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="stats">
+                <span>📈 <span id="blockCount">0</span> blocks today</span>
+            </div>
+            <a href="#" id="optionsLink">Advanced Settings</a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

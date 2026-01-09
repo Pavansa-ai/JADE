@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JADE - Advanced Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🛡️ JADE Settings</h1>
+                <div class="subtitle">Advanced Configuration & Monitoring</div>
+            </div>
+            <button id="backBtn" class="back-btn">← Back to Popup</button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="policy">📋 Domain Policies</button>
+            <button class="tab-btn" data-tab="logs">📊 Security Logs</button>
+            <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+            <button class="tab-btn" data-tab="export">📤 Export/Import</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content active" id="policy-tab">
+            <div class="section-header">
+                <h2>Domain Policies</h2>
+                <div class="section-actions">
+                    <button id="addPolicyBtn" class="action-btn">+ Add Policy</button>
+                    <input type="text" id="domainSearch" placeholder="Search domains..." class="search-input">
+                </div>
+            </div>
+            
+            <div class="policies-list" id="policiesList">
+                <!-- Policies will be loaded here -->
+                <div class="loading">Loading policies...</div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="logs-tab">
+            <div class="section-header">
+                <h2>Security Logs</h2>
+                <div class="section-actions">
+                    <select id="logFilter" class="filter-select">
+                        <option value="all">All Events</option>
+                        <option value="blocked">Blocked Only</option>
+                        <option value="allowed">Allowed Only</option>
+                        <option value="detected">Detected Only</option>
+                    </select>
+                    <button id="clearLogsBtn" class="action-btn danger">Clear Logs</button>
+                    <button id="exportLogsBtn" class="action-btn">Export Logs</button>
+                </div>
+            </div>
+            
+            <div class="logs-controls">
+                <input type="text" id="logSearch" placeholder="Search logs..." class="search-input">
+                <div class="log-stats">
+                    <span>Total: <span id="totalLogs">0</span></span>
+                    <span>Today: <span id="todayLogs">0</span></span>
+                    <span>Blocked: <span id="blockedLogs">0</span></span>
+                </div>
+            </div>
+            
+            <div class="logs-list" id="logsList">
+                <!-- Logs will be loaded here -->
+                <div class="loading">Loading logs...</div>
+            </div>
+            
+            <div class="pagination" id="logsPagination">
+                <button id="prevPageBtn" class="page-btn" disabled>← Previous</button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextPageBtn" class="page-btn" disabled>Next →</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="settings-tab">
+            <div class="section-header">
+                <h2>Global Settings</h2>
+            </div>
+            
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <h3>🛡️ Security Level</h3>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="securityLevel" value="high" checked>
+                            <span class="radio-label">
+                                <strong>High Security</strong>
+                                <small>Blocks all APIs by default. Maximum protection.</small>
+                            </span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="securityLevel" value="medium">
+                            <span class="radio-label">
+                                <strong>Medium Security</strong>
+                                <small>Blocks sensitive APIs only. Balanced approach.</small>
+                            </span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="securityLevel" value="low">
+                            <span class="radio-label">
+                                <strong>Low Security</strong>
+                                <small>Allows most APIs. Minimum interference.</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🔔 Notifications</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="showBlockNotifications" checked>
+                            <span>Show block notifications</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="logAllowedEvents">
+                            <span>Log allowed API calls</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="autoWhitelistCommonSites" checked>
+                            <span>Auto-whitelist common sites</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="enableSilentSurveillanceDetection" checked>
+                            <span>Detect silent surveillance</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🎨 UI Preferences</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="darkMode">
+                            <span>Dark mode</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="compactView">
+                            <span>Compact view</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="showRiskScores" checked>
+                            <span>Show risk scores</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>🔄 Behavior</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="autoApplyPolicies" checked>
+                            <span>Auto-apply policies on site visit</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="rememberLastState" checked>
+                            <span>Remember last settings per site</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="enableCSP" checked>
+                            <span>Enable Content Security Policy</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="blockThirdPartyByDefault" checked>
+                            <span>Block third-party scripts by default</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button id="saveSettingsBtn" class="primary-btn">Save Settings</button>
+                <button id="resetSettingsBtn" class="secondary-btn">Reset to Defaults</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="export-tab">
+            <div class="section-header">
+                <h2>Export & Import</h2>
+            </div>
+            
+            <div class="export-grid">
+                <div class="export-card">
+                    <h3>📤 Export Policies</h3>
+                    <p>Export all domain policies as a JSON file for backup or sharing.</p>
+                    <button id="exportPoliciesBtn" class="primary-btn">Export Policies</button>
+                </div>
+                
+                <div class="export-card">
+                    <h3>📥 Import Policies</h3>
+                    <p>Import policies from a JSON file to restore settings.</p>
+                    <input type="file" id="importFile" accept=".json" class="file-input">
+                    <button id="importPoliciesBtn" class="secondary-btn">Import Policies</button>
+                </div>
+                
+                <div class="export-card">
+                    <h3>🗑️ Reset All Data</h3>
+                    <p>Warning: This will delete all policies and logs. Cannot be undone.</p>
+                    <button id="resetAllBtn" class="danger-btn">Reset All Data</button>
+                </div>
+                
+                <div class="export-card">
+                    <h3>📊 Export Logs</h3>
+                    <p>Export security logs as CSV for analysis.</p>
+                    <button id="exportLogsCsvBtn" class="secondary-btn">Export as CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="version-info">
+                JADE v1.0.0 | Made with ❤️ for Security
+            </div>
+            <div class="footer-links">
+                <a href="#" id="refreshBtn">🔄 Refresh</a>
+                <a href="#" id="helpBtn">❓ Help</a>
+                <a href="#" id="aboutBtn">ℹ️ About</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Policy Editor Modal -->
+    <div id="policyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Edit Policy</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="modalDomain">Domain:</label>
+                    <input type="text" id="modalDomain" placeholder="example.com" class="form-input">
+                </div>
+                
+                <div class="modal-policy-grid">
+                    <!-- Policy checkboxes will be populated here -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalNotes">Notes:</label>
+                    <textarea id="modalNotes" placeholder="Add notes about this domain..." rows="3" class="form-textarea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modalSaveBtn" class="primary-btn">Save Policy</button>
+                <button id="modalCancelBtn" class="secondary-btn">Cancel</button>
+                <button id="modalDeleteBtn" class="danger-btn">Delete Policy</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>
